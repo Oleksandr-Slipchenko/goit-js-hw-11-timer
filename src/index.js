@@ -96,10 +96,10 @@ class CountdownTimer {
       for (const label of this.labels) {
   label.textContent = "";
   }
-    this.days.textContent = `${day} :`;
-    this.hours.textContent = `${hour} :`;
-    this.minutes.textContent = `${minute} :`;
-    this.seconds.textContent = `${second}`;
+    this.days.textContent = `${day} дней :`;
+    this.hours.textContent = `${hour} часов :`;
+    this.minutes.textContent = `${minute} минут :`;
+    this.seconds.textContent = `${second} секунд`;
   }
 }
 
