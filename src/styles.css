@@ -9,6 +9,10 @@ html {
 }
 
 body {
+  text-align: center;
+  font-weight: 900;
+  font-size: 50px;
+
   font-family: Open sans-serif;
 
   /*
