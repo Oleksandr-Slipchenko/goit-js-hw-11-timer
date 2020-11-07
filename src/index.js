@@ -51,6 +51,7 @@ class CountdownTimer {
     this.minutes = document.querySelector( `${selector} .value[data-value="mins"]`);
     this.seconds = document.querySelector(`${selector} .value[data-value="secs"]`);
     this.labels = document.querySelectorAll(`${selector} .label`);
+    this.interval = null;
   }
   newStringMarkUp() {
     return `<p>Новый Год через:</p>`;
@@ -58,27 +59,25 @@ class CountdownTimer {
 
   startPage() {
     this.title.insertAdjacentHTML("afterbegin", this.newStringMarkUp());
-      const endTime = this.targetDate;
 
-      const currentTime = Date.now();
-      const deltaTime = endTime - currentTime;
-      const time = this.getTimeComponents(deltaTime);
-      this.updateClockFace(time);
+
+      this.updateClockFace();
     // const time = this.getTimeComponents(0);
     // this.updateClockFace(time);
   }
 
-  start() {
-    const endTime = this.targetDate;
+ start() {
     this.startPage();
 
-    setInterval(() => {
-      const currentTime = Date.now();
-      const deltaTime = endTime - currentTime;
-      const time = this.getTimeComponents(deltaTime);
-      this.updateClockFace(time);
+    this.interval = setInterval(() => {
+        this.updateClockFace();
     }, 1000);
   }
+
+  stop() {
+    clearInterval(this.interval);
+  }
+
   pad(value) {
     return String(value).padStart(2, '0');
   }
@@ -92,7 +91,17 @@ class CountdownTimer {
     return { day, hour, minute, second };
   }
 
-  updateClockFace({ day, hour, minute, second }) {
+updateClockFace() {
+    const endTime = this.targetDate;
+
+const currentTime = Date.now();
+      const deltaTime = endTime - currentTime;
+      let time = this.getTimeComponents(deltaTime);
+      if (deltaTime <= 0) {
+        this.stop();
+        time = { day: '00', hour: '00', minute: '00', second: '00' };
+      }
+  const { day, hour, minute, second } = time;
       for (const label of this.labels) {
   label.textContent = "";
   }
@@ -105,7 +114,7 @@ class CountdownTimer {
 
 const timer = new CountdownTimer({
   selector: '#timer-1',
-  targetDate: '1 Jan 2021',
+  targetDate: 'Jan 01 2021',
 });
 
 timer.start();
